@@ -3,6 +3,7 @@ Module for working with speech recognition.
 '''
 
 import os
+import shutil
 import speech_recognition as sr
 import editor
 
@@ -39,6 +40,6 @@ def get_transcription_from_audio(path, language):
         print(formatted_string)
         transcription.append(formatted_string)
 
-    os.remove('temp_audio')
+    shutil.rmtree('temp_audio')
 
     return transcription
