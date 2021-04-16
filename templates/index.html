@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<h1>Lecture to text</h1>
+<form action="/register" method="post">
+    <p>
+    <input name="youtube" placeholder="Link to lecture on youtube" type="text"/>
+    <br>
+    <label for="lang">Choose language:</label>
+    <select id="lang" name="lang">
+        <option value="en">English</option>
+        <option value="uk_UA">Ukrainian</option>
+        <option value="ru">Russian</option>
+    </select>
+    <br>
+    <input type="submit" value="Register"/>
+    </p>
+</form>
+{% endblock %}
