@@ -130,3 +130,6 @@ dmypy.json
 
 # Some MacOs file
 .DS_Store
+
+# Firebase SDK
+firebase-sdk.json

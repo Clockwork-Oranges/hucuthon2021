@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect
+import shutil
 import requests
 import random as rand
 import speech_recognition_helper as srh
@@ -10,9 +11,11 @@ result = ""
 
 unique_links = {}
 
+
 @app.route("/")
 def index():
     return render_template("index.html")
+
 
 @app.route("/register", methods=["POST"])
 def register():
@@ -23,11 +26,14 @@ def register():
         unique_link += str(rand.randint(0, 9))
     directory = "main_audio"
     yth.download_audio(youtube, directory)
-    transcription = srh.get_transcription_from_audio(directory+'/audio.wav', lang)
+    transcription = srh.get_transcription_from_audio(
+        directory+'/audio.wav', lang)
     result = transcription
     unique_links[unique_link] = result
     special_link = "/result/" + unique_link
+    shutil.rmtree(directory)
     return redirect(special_link)
+
 
 @app.route("/result/<link>")
 def result(link):
