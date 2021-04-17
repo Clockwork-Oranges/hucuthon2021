@@ -9,6 +9,7 @@
 <style>
     * {
         box-sizing: border-box;
+        transition: ease-in-out 150ms;
     }
 
     body {
@@ -85,7 +86,7 @@
         <h1>Lecture 2 Text</h1>
         <p>Get your lecture transcribed from its link</p>
         <form action="/register" method="post">
-            <input name="youtube" type="text" placeholder="Paste link here" size=35 align="center">
+            <input name="youtube" type="text" placeholder="Paste link here" size=35 align="center" autocomplete="off">
             <select id="lang" name="lang">
                 <option value="uk-UA">Ukrainian</option>
                 <option value="en">English</option>

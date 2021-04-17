@@ -12,7 +12,7 @@ db = firestore.client()
 
 
 def add_to_database(id, youtube_link, transcription):
-    doc_ref = db.collection(str(id)).document('data')
+    doc_ref = db.collection('id').document(str(id))
     doc_ref.set({
         'youtube_link': youtube_link,
         'transcription': transcription
@@ -20,6 +20,6 @@ def add_to_database(id, youtube_link, transcription):
 
 
 def get_from_database(id):
-    doc_ref = db.collection(str(id)).document('data')
+    doc_ref = db.collection('id').document(str(id))
     doc = doc_ref.get()
     return doc.to_dict()

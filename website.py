@@ -39,7 +39,7 @@ def result(link):
     try:
         data_from_link = cf.get_from_database(link)
         transcription = data_from_link['transcription']
-        youtube_link = data_from_link['youtube_link']
+        youtube_link = data_from_link['youtube_link'].split('=')[1]
         return render_template("registrants.html", final_link=transcription, youtube=youtube_link)
     except (KeyError, TypeError):
         directory = "main_audio"

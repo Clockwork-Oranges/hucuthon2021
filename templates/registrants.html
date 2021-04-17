@@ -3,6 +3,7 @@
 <style>
     * {
         box-sizing: border-box;
+        transition: ease-in-out 150ms;
     }
 
     body {
@@ -105,8 +106,8 @@
             var player;
             function onYouTubeIframeAPIReady() {
                 player = new YT.Player('player', {
-                    height: '390',
-                    width: '640',
+                    height: '720',
+                    width: '1280',
                     videoId: youtube_id,
                 });
             }
@@ -118,7 +119,6 @@
     </div>
     <div class="padding" style="padding:5% 10%;">
         <div class="box">
-            <h1>{{ youtube }}</h1>
             {% for elem in final_link %}
             {{ elem|safe }}
             {% endfor %}
