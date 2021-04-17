@@ -106,8 +106,8 @@
             var player;
             function onYouTubeIframeAPIReady() {
                 player = new YT.Player('player', {
-                    height: '720',
-                    width: '1280',
+                    height: '576',
+                    width: '1024',
                     videoId: youtube_id,
                 });
             }
@@ -117,12 +117,14 @@
             }
         </script>
     </div>
-    <div class="padding" style="padding:5% 10%;">
-        <div class="box">
-            {% for elem in final_link %}
-            {{ elem|safe }}
-            {% endfor %}
-
+    <div class="padding" style="padding:5%;">
+        <div
+            style="height:300px;width:100%;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;margin-bottom: 20px;">
+            <div class="box">
+                {% for elem in final_link %}
+                {{ elem|safe }}
+                {% endfor %}
+            </div>
         </div>
         <form action="/">
             <input type="submit" value="Transcribe another video">
