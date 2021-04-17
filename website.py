@@ -4,10 +4,11 @@ import requests
 import random as rand
 import speech_recognition_helper as srh
 import youtube_helper as yth
+import cloud_firestore as cf
 
 app = Flask(__name__)
 
-result = ""
+result = None
 
 unique_links = {}
 
@@ -24,23 +25,30 @@ def register():
     unique_link = ""
     for num in range(16):
         unique_link += str(rand.randint(0, 9))
-    directory = "main_audio"
-    yth.download_audio(youtube, directory)
-    transcription = srh.get_transcription_from_audio(
-        directory+'/audio.wav', lang)
-    result = transcription
-    unique_links[unique_link] = result
+    result = [youtube, lang]
     special_link = "/result/" + unique_link
     shutil.rmtree(directory)
+    cf.add_to_database(unique_link, youtube, None)
     return redirect(special_link)
 
 
 @app.route("/result/<link>")
 def result(link):
-    unique_link = None
-    if link in unique_links:
-        unique_link = unique_links[link]
-    return render_template("registrants.html", final_link=unique_link)
+    try:
+        data_from_link = cf.get_from_database(link)
+        transcription = data_from_link['transcription']
+        youtube_link = data_from_link['youtube_link']
+        return render_template("registrants.html", final_link=transcription, youtube=youtube_link)
+    except (KeyError, TypeError):
+        directory = "main_audio"
+        yth.download_audio(result[0], directory)
+        transcription = srh.get_transcription_from_audio(
+            directory+'/audio.wav', result[1])
+        cf.add_to_database(link, result[0], transcription)
+        data_from_link = cf.get_from_database(link)
+        transcription = data_from_link['transcription']
+        youtube_link = data_from_link['youtube_link']
+        return render_template("registrants.html", final_link=transcription, youtube=youtube_link)
 
 
 if __name__ == "__main__":

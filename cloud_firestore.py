@@ -23,3 +23,5 @@ def get_from_database(id):
     doc_ref = db.collection(str(id)).document('data')
     doc = doc_ref.get()
     return doc.to_dict()
+
+print(get_from_database(9))
