@@ -31,6 +31,7 @@ def register():
     cf.add_to_database(unique_link, youtube, None)
     return redirect(special_link)
 
+
 @app.route("/result/<link>")
 def result(link):
     try:
@@ -45,6 +46,7 @@ def result(link):
             directory+'/audio.wav', transfer[1])
         cf.add_to_database(link, transfer[0], transcription)
         shutil.rmtree(directory)
+        transfer.clear()
         data_from_link = cf.get_from_database(link)
         transcription = data_from_link['transcription']
         youtube_link = data_from_link['youtube_link']
