@@ -32,8 +32,11 @@ def get_transcription_from_audio(path, language):
 
     transcription = []
     for index in range(len([i for i in os.listdir('temp_audio')])):
-        recognized_speech = recognize_speech(
-            f'temp_audio/{index}.wav', language)
+        try:
+            recognized_speech = recognize_speech(
+                f'temp_audio/{index}.wav', language)
+        except:
+            continue
         current_time_in_seconds = index*clip_duration
         formatted_string = f'[{current_time_in_seconds//3600}:{current_time_in_seconds//60}:{current_time_in_seconds % 60}] ' + \
             recognized_speech
