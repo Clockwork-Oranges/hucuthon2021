@@ -23,12 +23,14 @@ def register():
     youtube = request.form.get("youtube")
     lang = request.form.get("lang")
     unique_link = ""
-    for num in range(16):
-        unique_link += str(rand.randint(0, 9))
+    # for num in range(16):
+    #     unique_link += str(rand.randint(0, 9))
+    unique_link = str(int.from_bytes(youtube.split('=')[1].encode(), 'little'))
     transfer.append(youtube)
     transfer.append(lang)
     special_link = "/result/" + unique_link
-    cf.add_to_database(unique_link, youtube, None)
+    if cf.get_from_database(unique_link) is None:
+        cf.add_to_database(unique_link, youtube, None)
     return redirect(special_link)
 
 
@@ -49,7 +51,7 @@ def result(link):
         transfer.clear()
         data_from_link = cf.get_from_database(link)
         transcription = data_from_link['transcription']
-        youtube_link = data_from_link['youtube_link']
+        youtube_link = data_from_link['youtube_link'].split('=')[1]
         return render_template("registrants.html", final_link=transcription, youtube=youtube_link)
 
 

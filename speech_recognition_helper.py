@@ -38,8 +38,10 @@ def get_transcription_from_audio(path, language):
         except:
             continue
         current_time_in_seconds = index*clip_duration
-        formatted_string = f'[{current_time_in_seconds//3600}:{current_time_in_seconds//60}:{current_time_in_seconds % 60}] ' + \
-            recognized_speech
+        # formatted_string = f'<h2> Seconds passed: {current_time_in_seconds}' + f'[{current_time_in_seconds//3600}:{current_time_in_seconds//60}:{current_time_in_seconds % 60}] ' + \
+        #     recognized_speech + '</h2>'
+        formatted_string = f'<div class="text" onclick="timeCode({current_time_in_seconds})">' + f'[{current_time_in_seconds//3600}:{current_time_in_seconds//60}:{current_time_in_seconds % 60}] ' + \
+            recognized_speech + '</div>'
         print(formatted_string)
         transcription.append(formatted_string)
 
