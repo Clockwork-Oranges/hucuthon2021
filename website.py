@@ -8,7 +8,7 @@ import cloud_firestore as cf
 
 app = Flask(__name__)
 
-result = None
+transfer = []
 
 unique_links = {}
 
@@ -25,12 +25,11 @@ def register():
     unique_link = ""
     for num in range(16):
         unique_link += str(rand.randint(0, 9))
-    result = [youtube, lang]
+    transfer.append(youtube)
+    transfer.append(lang)
     special_link = "/result/" + unique_link
-    shutil.rmtree(directory)
     cf.add_to_database(unique_link, youtube, None)
     return redirect(special_link)
-
 
 @app.route("/result/<link>")
 def result(link):
@@ -41,10 +40,11 @@ def result(link):
         return render_template("registrants.html", final_link=transcription, youtube=youtube_link)
     except (KeyError, TypeError):
         directory = "main_audio"
-        yth.download_audio(result[0], directory)
+        yth.download_audio(transfer[0], directory)
         transcription = srh.get_transcription_from_audio(
-            directory+'/audio.wav', result[1])
-        cf.add_to_database(link, result[0], transcription)
+            directory+'/audio.wav', transfer[1])
+        cf.add_to_database(link, transfer[0], transcription)
+        shutil.rmtree(directory)
         data_from_link = cf.get_from_database(link)
         transcription = data_from_link['transcription']
         youtube_link = data_from_link['youtube_link']
